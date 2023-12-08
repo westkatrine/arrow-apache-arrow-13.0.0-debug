@@ -47,6 +47,8 @@
 #include "arrow/util/io_util.h"
 #include "arrow/util/logging.h"
 
+#include <iostream>
+
 namespace arrow {
 
 using internal::GetEnvVarNative;
@@ -241,6 +243,10 @@ Result<std::vector<PlatformFilename>> get_potential_libjvm_paths() {
     }
   }
 
+  std::cout << "debug the arrow" << std::endl;
+  for (const auto& path : potential_paths) {
+    std::cout << "Path: " << path.ToString() << std::endl;
+  }
   return potential_paths;
 }
 
