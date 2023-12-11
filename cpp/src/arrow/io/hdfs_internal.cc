@@ -167,6 +167,43 @@ Result<std::vector<PlatformFilename>> get_potential_libhdfs_paths() {
   return potential_paths;
 }
 
+
+Result<std::vector<PlatformFilename>> get_potential_libjvm_paths() {
+  std::vector<PlatformFilename> potential_paths;
+
+  std::vector<PlatformFilename> search_prefixes;
+  std::vector<PlatformFilename> search_suffixes;
+  std::string file_name;
+
+  ARROW_ASSIGN_OR_RAISE(
+      search_prefixes,
+      MakeFilenameVector({
+          "/home/xifang/arrow-parquet-test/libhdfs/jdk1.8.0_381"
+      }));
+  ARROW_ASSIGN_OR_RAISE(
+      search_suffixes,
+      MakeFilenameVector({"/jre/lib/aarch64/server"}));
+  file_name = "libjvm.so";
+
+
+  // Generate cross product between search_prefixes, search_suffixes, and file_name
+  for (auto& prefix : search_prefixes) {
+    for (auto& suffix : search_suffixes) {
+      ARROW_ASSIGN_OR_RAISE(auto path, prefix.Join(suffix).Join(file_name));
+      potential_paths.push_back(std::move(path));
+    }
+  }
+
+  std::cout << "debug the arrow" << std::endl;
+  for (const auto& path : potential_paths) {
+    std::cout << "Path: " << path.ToString() << std::endl;
+  }
+  return potential_paths;
+}
+
+
+
+/*
 Result<std::vector<PlatformFilename>> get_potential_libjvm_paths() {
   std::vector<PlatformFilename> potential_paths;
 
@@ -249,6 +286,7 @@ Result<std::vector<PlatformFilename>> get_potential_libjvm_paths() {
   }
   return potential_paths;
 }
+*/
 
 #ifndef _WIN32
 Result<LibraryHandle> try_dlopen(const std::vector<PlatformFilename>& potential_paths,
@@ -341,15 +379,8 @@ Status ConnectLibHdfs(LibHdfsShim** driver) {
 
     shim->Initialize();
 
-    // ARROW_ASSIGN_OR_RAISE(auto libjvm_potential_paths, get_potential_libjvm_paths());
-    // ARROW_ASSIGN_OR_RAISE(libjvm_handle, try_dlopen(libjvm_potential_paths, "libjvm"));
-
-
-    std::string yourPath = "/home/xifang/arrow-parquet-test/libhdfs/jdk1.8.0_381/jre/lib/aarch64/server/libjvm.so";
-    auto pf = PlatformFilename::FromString(yourPath));
-    std::vector<PlatformFilename> myPaths;
-    myPaths.push_back(pf);
-    ARROW_ASSIGN_OR_RAISE(libjvm_handle, try_dlopen(myPaths, "libjvm"));
+    ARROW_ASSIGN_OR_RAISE(auto libjvm_potential_paths, get_potential_libjvm_paths());
+    ARROW_ASSIGN_OR_RAISE(libjvm_handle, try_dlopen(libjvm_potential_paths, "libjvm"));
 
 
     ARROW_ASSIGN_OR_RAISE(auto libhdfs_potential_paths, get_potential_libhdfs_paths());
