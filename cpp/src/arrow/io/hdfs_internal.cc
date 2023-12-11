@@ -346,7 +346,7 @@ Status ConnectLibHdfs(LibHdfsShim** driver) {
     // ARROW_ASSIGN_OR_RAISE(auto libjvm_potential_paths, get_potential_libjvm_paths());
     //ARROW_ASSIGN_OR_RAISE(libjvm_handle, try_dlopen(libjvm_potential_paths, "libjvm"));
     std::string yourPath = "/home/xifang/arrow-parquet-test/libhdfs/jdk1.8.0_381/jre/lib/aarch64/server/libjvm.so";
-    PlatformFilename pf(yourPath);
+    auto pf = PlatformFilename::FromString(yourPath));
     std::vector<PlatformFilename> myPaths;
     myPaths.push_back(pf);
     ARROW_ASSIGN_OR_RAISE(libjvm_handle, try_dlopen(myPaths, "libjvm"));
