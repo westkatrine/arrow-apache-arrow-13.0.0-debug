@@ -244,11 +244,9 @@ Result<std::vector<PlatformFilename>> get_potential_libjvm_paths() {
   }
 
   std::cout << "debug the arrow" << std::endl;
-  std::cout.flush()
   for (const auto& path : potential_paths) {
     std::cout << "Path: " << path.ToString() << std::endl;
   }
-  std::cout.flush()
   return potential_paths;
 }
 
