@@ -260,6 +260,7 @@ Result<LibraryHandle> try_dlopen(const std::vector<PlatformFilename>& potential_
     handle = dlopen(p.ToNative().c_str(), RTLD_NOW | RTLD_LOCAL);
 
     if (handle != NULL) {
+      std::cout << "+++ get the target path :"  << p.ToString() << std::endl;
       return handle;
     } else {
       const char* err_msg = dlerror();
