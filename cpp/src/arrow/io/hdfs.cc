@@ -363,7 +363,7 @@ class HadoopFileSystem::HadoopFileSystemImpl {
   Status Connect(const HdfsConnectionConfig* config) {
     std::cerr<< "You are now in Connext ++++++++" << std::endl;
     RETURN_NOT_OK(ConnectLibHdfs(&driver_));
-
+    std::cerr<< "You are now after ConnectLibHdfs ++++++++" << std::endl;
 
     // connect to HDFS with the builder object
     hdfsBuilder* builder = driver_->NewBuilder();
@@ -384,8 +384,9 @@ class HadoopFileSystem::HadoopFileSystemImpl {
     }
 
     driver_->BuilderSetForceNewInstance(builder);
+    std::cerr<< "You are now before BuilderConnect ++++++++" << std::endl;
     fs_ = driver_->BuilderConnect(builder);
-
+    std::cerr<< "You are now after BuilderConnect ++++++++" << std::endl;
     if (fs_ == nullptr) {
       return Status::IOError("HDFS connection failed");
     }
