@@ -38,6 +38,8 @@
 #include "arrow/util/io_util.h"
 #include "arrow/util/logging.h"
 
+#include <iostream>
+
 using std::size_t;
 
 namespace arrow {
@@ -360,6 +362,7 @@ class HadoopFileSystem::HadoopFileSystemImpl {
 
   Status Connect(const HdfsConnectionConfig* config) {
     RETURN_NOT_OK(ConnectLibHdfs(&driver_));
+    std::cout<< "You are now in Connext ++++++++" << std::endl;
 
     // connect to HDFS with the builder object
     hdfsBuilder* builder = driver_->NewBuilder();
