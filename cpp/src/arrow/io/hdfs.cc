@@ -361,8 +361,9 @@ class HadoopFileSystem::HadoopFileSystemImpl {
   HadoopFileSystemImpl() : driver_(NULLPTR), port_(0), fs_(NULLPTR) {}
 
   Status Connect(const HdfsConnectionConfig* config) {
+    std::cerr<< "You are now in Connext ++++++++" << std::endl;
     RETURN_NOT_OK(ConnectLibHdfs(&driver_));
-    std::cout<< "You are now in Connext ++++++++" << std::endl;
+
 
     // connect to HDFS with the builder object
     hdfsBuilder* builder = driver_->NewBuilder();

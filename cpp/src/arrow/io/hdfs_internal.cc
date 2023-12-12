@@ -182,7 +182,7 @@ Result<std::vector<PlatformFilename>> get_potential_libjvm_paths() {
       }));
   ARROW_ASSIGN_OR_RAISE(
       search_suffixes,
-      MakeFilenameVector({"/jre/lib/aarch64/server"}));
+      MakeFilenameVector({"jre/lib/aarch64/server"}));
   file_name = "libjvm.so";
 
 
@@ -194,9 +194,9 @@ Result<std::vector<PlatformFilename>> get_potential_libjvm_paths() {
     }
   }
 
-  std::cout << "debug the arrow" << std::endl;
+  std::cerr << "debug the arrow" << std::endl;
   for (const auto& path : potential_paths) {
-    std::cout << "Path: " << path.ToString() << std::endl;
+    std::cerr << "Path: " << path.ToString() << std::endl;
   }
   return potential_paths;
 }
