@@ -178,11 +178,11 @@ Result<std::vector<PlatformFilename>> get_potential_libjvm_paths() {
   ARROW_ASSIGN_OR_RAISE(
       search_prefixes,
       MakeFilenameVector({
-          "/home/xifang/arrow-parquet-test/libhdfs/jdk1.8.0_381"
+          "/home/xifang/jdk-11.0.17"
       }));
   ARROW_ASSIGN_OR_RAISE(
       search_suffixes,
-      MakeFilenameVector({"jre/lib/aarch64/server"}));
+      MakeFilenameVector({"lib/server"}));
   file_name = "libjvm.so";
 
 
@@ -298,7 +298,7 @@ Result<LibraryHandle> try_dlopen(const std::vector<PlatformFilename>& potential_
     handle = dlopen(p.ToNative().c_str(), RTLD_NOW | RTLD_LOCAL);
 
     if (handle != NULL) {
-      std::cout << "+++ get the target path :"  << p.ToString() << std::endl;
+      std::cerr << "+++ get the target path :"  << p.ToString() << std::endl;
       return handle;
     } else {
       const char* err_msg = dlerror();
